@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button"
 import { ImageModal } from "@/components/ImageModal"
 
 export default function Home() {
+  const [openModalIndex, setOpenModalIndex] = useState<number | null>(null);
+  
   return (
     <div className="min-h-screen bg-[#f8f5f2]">
       {/* Navigation */}
@@ -442,7 +444,6 @@ export default function Home() {
                 description: "Ostatnie prace artysty, dekoracje sakralne",
               },
             ].map((artwork, index) => {
-              const [isModalOpen, setIsModalOpen] = useState(false)
               const imageSrc = artwork.image || '/placeholder.svg?height=600&width=800'
               
               return (
@@ -452,7 +453,7 @@ export default function Home() {
                 >
                   <div 
                     className="relative aspect-[4/3] overflow-hidden cursor-pointer"
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() => setOpenModalIndex(index)}
                   >
                     <Image
                       src={imageSrc}
@@ -467,11 +468,11 @@ export default function Home() {
                     <p className="mt-2 text-sm text-neutral-600">{artwork.description}</p>
                   </div>
 
-                  {isModalOpen && (
+                  {openModalIndex === index && (
                     <ImageModal
                       src={imageSrc}
                       alt={artwork.title}
-                      onClose={() => setIsModalOpen(false)}
+                      onClose={() => setOpenModalIndex(null)}
                     />
                   )}
                 </div>
